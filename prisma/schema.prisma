@@ -1,0 +1,100 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id             String           @id @default(auto()) @map("_id") @db.ObjectId
+  name           String?
+  image          String?
+  email          String?          @unique
+  isAdmin        Boolean?         @default(false)
+  password       String?
+  historicalData HistoricalData[]
+  categories     Category[]
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  accounts  Account[]
+  sessions  Session[]
+}
+
+model Account {
+  id                String  @id @default(auto()) @map("_id") @db.ObjectId
+  userId            String  @db.ObjectId
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String? @db.String
+  access_token      String? @db.String
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.String
+  session_state     String?
+  user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           String   @id @default(auto()) @map("_id") @db.ObjectId
+  sessionToken String   @unique
+  userId       String   @db.ObjectId
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model VerificationToken {
+  identifier String   @id @default(auto()) @map("_id") @db.ObjectId
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+}
+
+model HistoricalData {
+  id               String  @id @default(auto()) @map("_id") @db.ObjectId
+  investmentType   String
+  investmentAmount Float
+  rateOfInterest   Float?
+  access           Boolean @default(false)
+  timePeriod       String
+  return           Float?
+  totalReturns     Float?
+  user             User    @relation(fields: [userId], references: [id])
+  userId           String  @db.ObjectId
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model CalculatorDetails {
+  id                    String @id @default(auto()) @map("_id") @db.ObjectId
+  calculatorName        String
+  calculatorDescription String
+  calculatorLink        String
+}
+
+model Category {
+  id          String @id @default(auto()) @map("_id") @db.ObjectId
+  name        String
+  items       Item[]
+  TotalAmount Float  @default(0.0)
+
+  userId String @db.ObjectId
+  user   User   @relation(fields: [userId], references: [id])
+}
+
+model Item {
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  name       String
+  price      Float
+  method     String
+  categoryId String   @db.ObjectId
+  category   Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+}
