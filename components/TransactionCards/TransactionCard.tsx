@@ -27,7 +27,14 @@ interface Transactions {
         name: string;
         TotalAmount: number;
         userId: string;
-    }[]
+    }[] | any
+}
+
+interface Category {
+    id: string;
+    name: string;
+    TotalAmount: number;
+    userId: string;
 }
 
 const TransactionCard = ({ transactionDetails, categories }: Transactions) => {
@@ -159,7 +166,7 @@ const TransactionCard = ({ transactionDetails, categories }: Transactions) => {
                                 <h2 className="text-xl font-semibold cursor-pointer" onClick={togglePopup}><AiOutlineClose /></h2>
                             </div>
                             <ul>
-                                {categories.map((category) => (
+                                {categories.isArray() && categories.map((category: Category) => (
                                     <li key={category.id}>
                                         <label className="flex items-center">
                                             <input

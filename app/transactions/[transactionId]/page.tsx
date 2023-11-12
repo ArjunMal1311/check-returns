@@ -1,6 +1,7 @@
 "use client"
 
 import TransactionCard from '@/components/TransactionCards/TransactionCard';
+import getCategories from '@/lib/getCategories';
 import axios from 'axios';
 import { useParams } from 'next/navigation';
 import React, { useEffect, useState } from 'react'
@@ -38,7 +39,7 @@ const page = () => {
 
     return (
         <div>
-            {transaction && <TransactionCard transactionDetails={transaction} />}
+            {transaction && <TransactionCard transactionDetails={transaction} categories={null}/>}
         </div>
     );
 
