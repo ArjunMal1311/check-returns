@@ -11,11 +11,17 @@ export async function POST(request: Request) {
 
     try {
         const body = await request.json();
-        const { cardNumber } = body;
-        const price = 465;
+        const { cardNumber, name, price } = body;
 
-        const newItem = await prisma.item.create({
-            data: { name: "Name", categoryId: cardNumber, price: price, method: "UPI" },
+        const itemData = {
+            name: name || "Name",
+            categoryId: cardNumber,
+            price: price || 500,
+            method: "UPI",
+        };
+
+        await prisma.item.create({
+            data: itemData,
         });
 
         const category = await prisma.category.findUnique({
@@ -28,7 +34,7 @@ export async function POST(request: Request) {
             return NextResponse.json({ success: false, message: "Category not found" });
         }
 
-        const newTotalAmount = category.TotalAmount + price;
+        const newTotalAmount = category.TotalAmount + itemData.price;
 
         await prisma.category.update({
             where: {

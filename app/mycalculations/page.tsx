@@ -3,6 +3,7 @@ import { JetBrains_Mono } from 'next/font/google';
 import getCurrentUser from '@/lib/getCurrentUser';
 import getTransactionDetails from '@/lib/getTransactionDetails';
 import TransactionCard from '@/components/TransactionCards/TransactionCard';
+import getCategories from '@/lib/getCategories';
 const JetBrains = JetBrains_Mono({ subsets: ['latin'] });
 
 interface Transaction {
@@ -19,8 +20,16 @@ interface Transaction {
     updatedAt: Date;
 }
 
+interface Categories {
+    id: string;
+    name: string;
+    TotalAmount: number;
+    userId: string;
+}
+
 const page = async () => {
     const user = await getCurrentUser();
+    const categories = await getCategories() as Categories[];
 
     if (!user) {
         return <div>Please login to continue</div>;
@@ -38,7 +47,7 @@ const page = async () => {
             <div className='flex flex-wrap justify-center'>
                 {transactions.map((transaction) => (
                     <div key={transaction.id} className="">
-                        <TransactionCard transactionDetails={transaction} />
+                        <TransactionCard transactionDetails={transaction} categories={categories} />
                     </div>
                 ))}
             </div>

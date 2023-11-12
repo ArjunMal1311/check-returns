@@ -1,12 +1,14 @@
 "use client"
-import React from 'react';
+import React, { useState } from 'react';
 import { JetBrains_Mono } from 'next/font/google';
-import { AiFillLock, AiFillUnlock } from "react-icons/ai";
+import { AiFillLock, AiFillUnlock, AiOutlineClose, AiOutlinePlus } from "react-icons/ai";
 import { FiShare2 } from "react-icons/fi";
 import toast from 'react-hot-toast';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
+import { AnimatePresence } from 'framer-motion';
 const JetBrains = JetBrains_Mono({ subsets: ['latin'] });
+import { motion } from "framer-motion"
 
 interface Transactions {
     transactionDetails: {
@@ -19,10 +21,34 @@ interface Transactions {
         return: number | null;
         totalReturns: number | null;
     };
+
+    categories: {
+        id: string;
+        name: string;
+        TotalAmount: number;
+        userId: string;
+    }[]
 }
 
-const TransactionCard = ({ transactionDetails }: Transactions) => {
+const TransactionCard = ({ transactionDetails, categories }: Transactions) => {
     const router = useRouter();
+
+    const [isPopupVisible, setIsPopupVisible] = useState(false);
+    const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
+
+    const togglePopup = () => {
+        setIsPopupVisible(!isPopupVisible);
+    };
+
+    const handleCategorySelection = (e: React.ChangeEvent<HTMLInputElement>, categoryId: string) => {
+        const isChecked = e.target.checked;
+        if (isChecked) {
+            setSelectedCategories((prevCategories) => [...prevCategories, categoryId]);
+        } else {
+            setSelectedCategories((prevCategories) => (prevCategories as string[]).filter((id) => id !== categoryId));
+        }
+    };
+
 
     const changeVisibilityFunction = async () => {
         await axios.patch("/api/changeVisibility", transactionDetails);
@@ -47,6 +73,36 @@ const TransactionCard = ({ transactionDetails }: Transactions) => {
                 toast.error("Failed to copy to clipboard");
                 console.error("Copy to clipboard error:", error);
             });
+    };
+
+    const saveToCategories = async () => {
+        await toast.promise(
+            (async () => {
+                if (selectedCategories.length === 0) {
+                    toast.error("Select at least one")
+                    throw new Error();
+                }
+
+                const savePromises = selectedCategories.map(async (cardNumber) => {
+                    const response = await axios.post('/api/view', {
+                        cardNumber: cardNumber,
+                        name: transactionDetails.investmentType,
+                        price: transactionDetails.investmentAmount,
+                    });
+
+                    return response.data.success;
+                });
+
+                await Promise.all(savePromises);
+            })(),
+            {
+                loading: "Updating",
+                success: "Success",
+                error: "Try again"
+            }
+        );
+
+        router.refresh();
     };
 
     return (
@@ -82,10 +138,51 @@ const TransactionCard = ({ transactionDetails }: Transactions) => {
                 <div>Total : {transactionDetails.totalReturns ? <>{transactionDetails.totalReturns.toFixed(2)}</> : <>N.A.</>}</div>
 
                 <div className='mt-8 flex justify-between w-full items-center mb-2'>
-                    <div className='rounded-lg px-1 py-1 border-2 hover:bg-white hover:text-black cursor-pointer' onClick={copyToClipboard}><FiShare2 size={20} /></div>
+                    <div className='rounded-lg px-1 py-1 border-2 hover:bg-white hover:text-black cursor-pointer transition duration-500' onClick={togglePopup}><AiOutlinePlus /></div>
+                    <div className='rounded-lg px-1 py-1 border-2 hover:bg-white hover:text-black cursor-pointer transition duration-500' onClick={copyToClipboard}><FiShare2 size={20} /></div>
                     <div className='rounded-lg px-3 py-1 border-2 text-[14px] select-none hover:bg-white hover:text-black transition duration-500 cursor-pointer'>Calculator</div>
                 </div>
             </div>
+
+            <AnimatePresence>
+                {isPopupVisible && (
+                    <motion.div
+                        initial={{ opacity: 0, scale: 0.8 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        exit={{ opacity: 0, scale: 0.8 }}
+                        transition={{ duration: 0.5 }}
+                        className="popup fixed inset-0 flex items-center justify-center z-50"
+                    >
+                        <div className="popup-content bg-white p-4 rounded-lg shadow-lg w-[300px] h-[200px] flex flex-col justify-between border-2">
+                            <div className='flex justify-between items-center'>
+                                <h2 className="text-xl font-semibold">Categories</h2>
+                                <h2 className="text-xl font-semibold cursor-pointer" onClick={togglePopup}><AiOutlineClose /></h2>
+                            </div>
+                            <ul>
+                                {categories.map((category) => (
+                                    <li key={category.id}>
+                                        <label className="flex items-center">
+                                            <input
+                                                type="checkbox"
+                                                value={category.id}
+                                                onChange={(e) => handleCategorySelection(e, category.id)}
+                                                className="form-checkbox text-blue-500  mx-2 mr-2"
+                                            />
+                                            {category.name}
+                                        </label>
+                                    </li>
+                                ))}
+                            </ul>
+                            <button
+                                onClick={saveToCategories}
+                                className="mt-4 bg-blue-500 text-white px-4 py-2 rounded-full hover:bg-blue-600 transition duration-300"
+                            >
+                                Save
+                            </button>
+                        </div>
+                    </motion.div>
+                )}
+            </AnimatePresence>
         </div>
     );
 };
