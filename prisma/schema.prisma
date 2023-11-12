@@ -13,6 +13,7 @@ model User {
   image          String?
   email          String?          @unique
   isAdmin        Boolean?         @default(false)
+  emailVerified  Boolean?
   password       String?
   historicalData HistoricalData[]
   categories     Category[]

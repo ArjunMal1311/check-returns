@@ -7,19 +7,19 @@ import WavyText from '../LandingPageTools/WavyText'
 const HomePage = () => {
     return (
         <div className='flex flex-col items-center bg-clip-text'>
-            <div className='mt-16 bg-gradient-to-r text-[24px] font-extrabold uppercase leading-[24.2px] tracking-widest md:text-[26px] md:leading-[30px] lg:leading-[36px] bg-clip-text text-transparent from-[#3DBFF5] to-[#6F42C1] lg:text-[32px]'>
+            <div className='mt-16 bg-gradient-to-r sm:text-[24px] text-[30px] font-extrabold uppercase leading-[24.2px] tracking-widest md:text-[26px] md:leading-[30px] lg:leading-[36px] bg-clip-text text-transparent from-[#3DBFF5] to-[#6F42C1] lg:text-[32px]'>
                 CHECK RETURNS
             </div>
             <h1 className='text-gray-900 text-[28px] font-extrabold leading-[34px] tracking-tight md:text-[40px] md:leading-[48px] lg:text-5xl lg:leading-[55px] w-full max-w-[740px] !whitespace-pre-line text-center mt-8'>
                 <div className='flex items-center justify-center'>
                     Maximizing
-                    <span className='bg-gradient-to-r bg-clip-text text-transparent ml-4 from-[#8A63D2] to-[#E23A3A]'>
+                    <span className='bg-gradient-to-r bg-clip-text text-transparent ml-2 from-[#8A63D2] to-[#E23A3A]'>
                         <WavyText text="Returns," replay={true} />
                     </span>
                 </div>
                 <div className='flex items-center justify-center'>
                     Minimizing
-                    <span className='bg-gradient-to-r bg-clip-text text-transparent ml-4 from-[#8A63D2] to-[#E23A3A] '>
+                    <span className='bg-gradient-to-r bg-clip-text text-transparent ml-2 from-[#8A63D2] to-[#E23A3A] '>
                         <WavyText text="Efforts" replay={true} />
                     </span>
                 </div>
