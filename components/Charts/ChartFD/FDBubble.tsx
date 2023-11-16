@@ -8,13 +8,13 @@ interface BubbleChartProps {
 }
 
 const FDBubble = ({ investment, rateOfInterest, timePeriod }: BubbleChartProps) => {
-    const principal = parseFloat(investment);
+    const principle = parseFloat(investment);
     const interestRate = parseFloat(rateOfInterest) / 100;
     const years = parseInt(timePeriod);
 
     const data = [];
     for (let year = 0; year <= years; year++) {
-        const totalValue = principal + (principal * interestRate * year);
+        const totalValue = principle + (principle * interestRate * year);
         const radius = Math.sqrt(totalValue) / 100 + 10 * year;
 
         data.push({ x: year, y: totalValue, r: radius });

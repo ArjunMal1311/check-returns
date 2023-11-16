@@ -53,7 +53,7 @@ const FixedDepositCalculator = () => {
 
 
     const calculateReturns = () => {
-        const principal = parseFloat(investment);
+        const principle = parseFloat(investment);
         const interestRate = parseFloat(rateOfInterest) / 100;
         let years = parseFloat(timePeriod);
 
@@ -63,8 +63,8 @@ const FixedDepositCalculator = () => {
             years = years / 365;
         }
 
-        const returns = principal + principal * interestRate * years;
-        const totalValue = principal + returns;
+        const returns = principle + principle * interestRate * years;
+        const totalValue = principle + returns;
 
         const SaveData = async () => {
             await axios.post("/api/transaction", { investmentType: "fixed-deposit", investment, rateOfInterest, timePeriod, timeUnit, returns, totalValue })

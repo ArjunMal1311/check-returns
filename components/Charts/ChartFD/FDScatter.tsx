@@ -9,13 +9,13 @@ interface FDComponents {
 
 
 const FDScatter = ({ investment, rateOfInterest, timePeriod }: FDComponents) => {
-    const principal = parseFloat(investment);
+    const principle = parseFloat(investment);
     const interestRate = parseFloat(rateOfInterest);
     const years = parseInt(timePeriod);
 
     const data = [];
     for (let year = 0; year <= years; year++) {
-        const totalValue = principal + (principal * interestRate * year) / 100;
+        const totalValue = principle + (principle * interestRate * year) / 100;
         data.push({ x: year, y: totalValue });
     }
 

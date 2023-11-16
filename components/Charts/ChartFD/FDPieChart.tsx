@@ -8,18 +8,18 @@ interface FDComponents {
 }
 
 const FDChart = ({ investment, rateOfInterest, timePeriod }: FDComponents) => {
-    const principal = parseFloat(investment);
+    const principle = parseFloat(investment);
     const interestRate = parseFloat(rateOfInterest);
     const years = parseInt(timePeriod);
 
-    const interest = (principal * interestRate * years)/100;
-    const totalValue = principal + interest;
+    const interest = (principle * interestRate * years)/100;
+    const totalValue = principle + interest;
 
     const chartData = {
         labels: ['Total Investment', 'Interest'],
         datasets: [
             {
-                data: [principal, interest],
+                data: [principle, interest],
                 backgroundColor: [
                     'rgba(255, 99, 132, 0.2)',
                     'rgba(54, 162, 235, 0.2)',

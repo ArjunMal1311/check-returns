@@ -9,12 +9,12 @@ interface FDComponents {
 }
 
 const FDLine = ({ investment, rateOfInterest, timePeriod }: FDComponents) => {
-    const principal = parseFloat(investment);
+    const principle = parseFloat(investment);
     const annualRate = parseFloat(rateOfInterest) / 100;
     const years = parseInt(timePeriod);
 
     const data = [];
-    let currentTotal = principal;
+    let currentTotal = principle;
 
     for (let year = 1; year <= years; year++) {
         currentTotal = currentTotal + currentTotal * annualRate;

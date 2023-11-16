@@ -79,19 +79,6 @@ const page = () => {
         setState({ ...state, [event.target.name]: event.target.value });
     };
 
-    const socialSignIn = async (action: string) => {
-        signIn(action, { redirect: false }).then((callback: any) => {
-            if (callback?.error) {
-                toast.error('Invalid Credentials')
-            }
-
-            if (callback?.ok && !callback?.error) {
-                toast.success('Logged In!')
-                router.push("/calculator")
-            }
-        })
-    }
-
     const socialAction = async (action: string) => {
         await toast.promise(
             signIn(action, { redirect: false }).then((callback: any) => {
