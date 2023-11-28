@@ -147,7 +147,7 @@ const TransactionCard = ({ transactionDetails, categories }: Transactions) => {
                 <div className='mt-8 flex justify-between w-full items-center mb-2'>
                     <div className='rounded-lg px-1 py-1 border-2 hover:bg-white hover:text-black cursor-pointer transition duration-500' onClick={togglePopup}><AiOutlinePlus /></div>
                     <div className='rounded-lg px-1 py-1 border-2 hover:bg-white hover:text-black cursor-pointer transition duration-500' onClick={copyToClipboard}><FiShare2 size={20} /></div>
-                    <div className='rounded-lg px-3 py-1 border-2 text-[14px] select-none hover:bg-white hover:text-black transition duration-500 cursor-pointer'>Calculator</div>
+                    <div className='rounded-lg px-3 py-1 border-2 text-[14px] select-none hover:bg-white hover:text-black transition duration-500 cursor-pointer' onClick={() => { router.push("/fixed-deposit") }}>Calculator</div>
                 </div>
             </div>
 
@@ -166,7 +166,7 @@ const TransactionCard = ({ transactionDetails, categories }: Transactions) => {
                                 <h2 className="text-xl font-semibold cursor-pointer" onClick={togglePopup}><AiOutlineClose /></h2>
                             </div>
                             <ul>
-                                {categories.isArray() && categories.map((category: Category) => (
+                                {categories.isArray && categories.map((category: Category) => (
                                     <li key={category.id}>
                                         <label className="flex items-center">
                                             <input

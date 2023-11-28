@@ -23,6 +23,6 @@ export async function GET(request: Request, response: Response) {
         return NextResponse.json({ success: true, data: searchResults })
     } catch (error) {
         console.error('Error while searching:', error);
-        return NextResponse.json({ success: true, route: "Search" });
+        return NextResponse.json({ success: false, route: "Search" });
     }
 }

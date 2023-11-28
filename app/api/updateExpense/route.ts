@@ -42,6 +42,7 @@ export async function PATCH(request: Request) {
         await prisma.category.update({
             where: {
                 id: categoryId,
+                userId: user.id
             },
             data: {
                 TotalAmount: newTotalAmount,

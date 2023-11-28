@@ -39,6 +39,7 @@ export async function POST(request: Request) {
         await prisma.category.update({
             where: {
                 id: cardNumber,
+                userId: user.id
             },
             data: {
                 TotalAmount: newTotalAmount,
