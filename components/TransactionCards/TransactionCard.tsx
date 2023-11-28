@@ -166,7 +166,7 @@ const TransactionCard = ({ transactionDetails, categories }: Transactions) => {
                                 <h2 className="text-xl font-semibold cursor-pointer" onClick={togglePopup}><AiOutlineClose /></h2>
                             </div>
                             <ul>
-                                {categories.isArray && categories.map((category: Category) => (
+                                {categories.map((category: Category) => (
                                     <li key={category.id}>
                                         <label className="flex items-center">
                                             <input

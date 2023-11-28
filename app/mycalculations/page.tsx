@@ -31,6 +31,8 @@ const page = async () => {
     const user = await getCurrentUser();
     const categories = await getCategories() as Categories[];
 
+    console.log(categories)
+
     if (!user) {
         return <div>Please login to continue</div>;
     }
