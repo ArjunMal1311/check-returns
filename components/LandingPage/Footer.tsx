@@ -14,9 +14,9 @@ const Footer = () => {
                     <div className='font-bold text-lg mb-2'>Quick Links</div>
                     <ul className='flex flex-col sm:text-left'>
                         <li><Link href="/">Home</Link></li>
-                        <li><Link href="/calculators">Calculators</Link></li>
-                        <li><Link href="/guides">Guides</Link></li>
-                        <li><Link href="/about">About</Link></li>
+                        <li><Link href="/calculator">Calculators</Link></li>
+                        <li><Link href="/">Guides</Link></li>
+                        <li><Link href="/profile">Profile</Link></li>
                     </ul>
                 </div>
 
